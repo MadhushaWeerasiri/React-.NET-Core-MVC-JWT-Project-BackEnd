@@ -33,8 +33,10 @@ public class TokenService
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         
         var token = new JwtSecurityToken(
-            issuer: _configuration["Jwt.Issuer"],
+            issuer: _configuration["Jwt:Issuer"],
             audience: _configuration["Jwt:Audience"],
+            // issuer: "http://localhost:5019",
+            // audience: "http://localhost:5019",
             claims: claims,
             expires: DateTime.UtcNow.AddMinutes(15),
             signingCredentials: creds);
@@ -51,7 +53,7 @@ public class TokenService
 
     public async Task<(string AccessToken, string RefreshToken)?> Refresh(string refreshToken)
     {
-        var rt = await _refreshTokenRepository.GetValidTockenAsync(refreshToken);
+        var rt = await _refreshTokenRepository.GetValidTokenAsync(refreshToken);
         if (rt == null) return null;
         
         var user = await _userRepository.GetByIdAsync(rt.UserId);

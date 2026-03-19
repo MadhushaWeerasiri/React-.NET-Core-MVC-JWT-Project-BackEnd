@@ -20,7 +20,13 @@ public class UserRepository : IUserRepository
     public async Task<User?> GetByIdAsync(int id)
     {
         using var con = _context.CreateConnection();
-        return await con.QueryFirstOrDefaultAsync(
+        var result = await con.QueryFirstOrDefaultAsync<dynamic>(
             "SELECT * FROM users WHERE Id = @Id", new { Id = id });
+        return new User
+        {
+            Id = result?.Id,
+            Username = result?.Username,
+            PasswordHash = result?.PasswordHash,
+        };
     }
 }

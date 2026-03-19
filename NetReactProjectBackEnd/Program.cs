@@ -15,6 +15,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 builder.Services.AddScoped<IDataRepository, DataRepository>();
 builder.Services.AddScoped<TokenService>();
+builder.Services.AddControllers();
 
 // JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -39,7 +40,7 @@ builder.Services.AddCors(options => options.AddPolicy("AllowReact",
 
 var app = builder.Build();
 
-// === SEED ADMIN USER ===
+// SEED ADMIN USER
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<DapperContext>();
