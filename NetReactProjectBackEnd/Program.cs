@@ -36,7 +36,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 builder.Services.AddCors(options => options.AddPolicy("AllowReact",
-    p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+    p => p.WithOrigins(builder.Configuration["Frontend:FEURL"]!)
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials()
+));
 
 var app = builder.Build();
 

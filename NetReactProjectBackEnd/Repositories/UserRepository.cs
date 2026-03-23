@@ -29,4 +29,14 @@ public class UserRepository : IUserRepository
             PasswordHash = result?.PasswordHash,
         };
     }
+    
+    public async Task<int> RegisterAsync(User user)
+    {
+        using var con = _context.CreateConnection();
+
+        var query = @"INSERT INTO Users (Username, PasswordHash) VALUES (@Username, @PasswordHash)";
+
+        return await con.ExecuteScalarAsync<int>(query, user);
+
+    }
 }

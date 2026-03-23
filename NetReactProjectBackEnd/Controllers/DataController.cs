@@ -19,4 +19,18 @@ public class DataController : Controller
         var data = await _dataRepository.GetAllAsync();
         return Ok(data);
     }
+
+    [HttpGet("data/{userId}")]
+    public async Task<IActionResult> GetDataByUser(int userId)
+    {
+        var data = await _dataRepository.GetByUserIdAsync(userId);
+        if (data == null)
+        {
+            return NotFound();
+        }
+        else
+        {
+            return Ok(data);
+        }
+    }
 }

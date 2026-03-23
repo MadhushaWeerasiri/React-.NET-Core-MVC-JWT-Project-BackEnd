@@ -15,4 +15,14 @@ public class DataRepository : IDataRepository
         using var con = _context.CreateConnection();
         return await con.QueryAsync<DataItem>("SELECT * FROM dbo.DataItems");
     }
+
+    public async Task<IEnumerable<DataItem>> GetByUserIdAsync(int userId)
+    {
+        using var con = _context.CreateConnection();
+        return await con.QueryAsync<DataItem>(
+            "SELECT * FROM DataItems WHERE UserId = @UserId",
+            new { UserId = userId }
+        );
+    }
+    
 }
